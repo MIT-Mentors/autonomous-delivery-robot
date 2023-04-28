@@ -204,3 +204,23 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+find_library(WIRINGPI_LIBRARIES NAMES wiringPi)
+
+add_executable(main_adr src/main.cpp)
+target_link_libraries(main_adr ${catkin_LIBRARIES})
+target_link_libraries(main_adr ${WIRINGPI_LIBRARIES})
+
+add_executable(delivery_adr src/delivery.cpp)
+target_link_libraries(delivery_adr ${catkin_LIBRARIES})
+target_link_libraries(delivery_adr ${WIRINGPI_LIBRARIES})
+
+add_executable(obs_adr src/obs_main.cpp)
+target_link_libraries(obs_adr ${catkin_LIBRARIES})
+target_link_libraries(obs_adr ${WIRINGPI_LIBRARIES})
+
+add_executable(imu_adr src/imu_node.cpp)
+target_link_libraries(imu_adr ${catkin_LIBRARIES})
+target_link_libraries(imu_adr ${WIRINGPI_LIBRARIES})
+
+
