@@ -104,13 +104,20 @@ rosrun autonomous-delivery-robot obs_main
 ```
 #### For delivery from dummy location A to dummy location B
 ```
-roslaunch delivery.launch
+roslaunch autonomous-delivery-robot delivery.launch
 ```
 
 ## Running the app
 Refer [this]()
 
 ## Software module overview
+| Module | Purpose |
+|------------------|
+| src/access_database.py |  To access the database to read/write data |
+| src/database_url.txt | Contains the url of the database |
+| src/delivery.cpp | Resolves the sender and receiver data and publishes the setpoint
+| src/main.cpp | Navigates the robot to the setpoint |
+| src/obs_main.cpp | Does obstacle avoidance whilst basic locomotion |
 
 ## Software workflow
 Firebase is used as a database where all the user data, availability of the robot, and data pertaining to a specific order are stored. The users are the only ones who will be able to access the robot. All the users should be registered with the application and should belong to the closed community for safety purposes. For example, if the robot is trained for a college campus, then only the staff can access the robot. All these staffs should be registered with the application. The data used as the username can be an email id specific to the college alone. The data is stored as key-value pairs in a NoSQL format. 
