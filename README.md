@@ -26,7 +26,7 @@ Tested on Ubuntu Server 20.04
 1. [Robot Operating System (ROS) - Noetic](http://wiki.ros.org/noetic/Installation)
 2. [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
 3. [Git](https://git-scm.com/downloads)
-4. 
+4. [Wiring Pi](http://wiringpi.com/download-and-install)
 
 
 ## Setting up the computer
@@ -86,8 +86,22 @@ Refer [this.](https://github.com/MIT-Mentors/Intel-RealSense-Camera-R200-setup)
 
 
 ## Running the software
+### For Obstacle avoidance
+In a terminal run
+```
+roscore
+```
+In another terminal run
+```
+rosrun autonomous-delivery-robot obs_main
+```
+#### For delivery from dummy location A to dummy location B
+```
+roslaunch delivery.launch
+```
 
 ## Running the app
+Refer [this]()
 
 ## Software module overview
 
