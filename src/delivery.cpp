@@ -1,3 +1,11 @@
+// ****************************************************************************************************************************************
+// Title            : delivery.cpp
+// Description      : The script is responsible for resolving the sender and receiver information and determines the location setpoint and
+//                    publishes it. It also publishes appropriate status signals.           
+// Author           : Sowbhagya Lakshmi H T
+// Last revised on  : 20/05/2023
+// ****************************************************************************************************************************************
+
 #include <array>
 #include <iostream>
 #include <string>
@@ -40,7 +48,7 @@ public:
 
     Sender(ros::NodeHandle* n)
     {
-        m_locationSub = n->subscribe("senderLocation", 1000, &Sender::location_callback, this);
+        m_locationSub = n->subscribe("senderLocation", int queue_size=1000, &Sender::location_callback, this);
     }
 
     void location_callback(const std_msgs::String::ConstPtr &name)
@@ -57,7 +65,7 @@ public:
 
     Receiver(ros::NodeHandle* n)
     {
-        m_locationSub = n->subscribe("receiverLocation", 1000, &Receiver::location_callback, this);
+        m_locationSub = n->subscribe("receiverLocation", int queue_size=1000, &Receiver::location_callback, this);
     }
 
     void location_callback(const std_msgs::String::ConstPtr &name)
@@ -76,8 +84,8 @@ public:
 
     SetPoint(ros::NodeHandle* n)
     {
-        m_setpointPub = n->advertise<std_msgs::Int8>("setpoint", 1000);
-        m_reachedSetpointSub = n->subscribe("isReachedSetPoint", 10000, &SetPoint::reached_setpoint_callback, this);
+        m_setpointPub = n->advertise<std_msgs::Int8>("setpoint", int queue_size=1000);
+        m_reachedSetpointSub = n->subscribe("isReachedSetPoint", int queue_size=10000, &SetPoint::reached_setpoint_callback, this);
     }
 
     void publish_setpoint(int sp)
@@ -120,7 +128,7 @@ public:
 
     BotAvailability(ros::NodeHandle* n)
     {
-        m_availabilityPub = n->advertise<std_msgs::String>("availability", 1000);
+        m_availabilityPub = n->advertise<std_msgs::String>("availability", int queue_size=1000);
     }
 
     void set_availability_status(AvailabilityStatusOptions status)
@@ -143,7 +151,7 @@ public:
 
     ProgressStatus(ros::NodeHandle* n)
     {
-        m_progressStatusPub = n->advertise<std_msgs::String>("progress", 1000);
+        m_progressStatusPub = n->advertise<std_msgs::String>("progress", int queue_size=1000);
     }
 
     void set_progress_status(ProgressStatusOptions status)

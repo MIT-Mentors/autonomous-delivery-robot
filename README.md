@@ -27,7 +27,6 @@ Tested on Ubuntu Server 20.04
 11. Wheels
 12. Lithium ion batteries
 13. SD Card
-14. USB c cable
 
 ## Software requirements
 1. [Robot Operating System (ROS) - Noetic](http://wiki.ros.org/noetic/Installation)
@@ -73,18 +72,57 @@ ssh <username>@<ip_address>
 ```
 This would then prompt the user to enter the password, after which remote access will be established.
 
-### Setting up Catkin Workspace
+### Setting up catkin workspace
 Refer [this ](http://wiki.ros.org/catkin/Tutorials/create_a_workspace) tutorial.
 
-### Setting up the main repository
+### Setting up a local repository
+1. Create a ROS package in the catkin workspace
+    ```
+    cd ~/<catkin_workspace_name>/src
+    ```
+    ```
+    catkin_create_pkg autonomous-delivery-robot std_msgs rospy roscpp
+    ```
+    ```
+    cd ~/<catkin_workspace_name>
+    ```
+    And then execute ```catkin build``` or ```catkin_make``` command.
 
-Open the terminal and execute the following
+2. To get catkin working after ROS installation execute
 ```
-cd ~/catkin_ws/src/
-git clone https://github.com/MIT-Mentors/autonomous-delivery-robot
-cd ~/catkin_ws
-catkin_make
+sudo apt install python3-catkin-tools python3-osrf-pycommon
 ```
+
+3. Initialise git <br />
+Make sure you have configured git using the commands.
+    ```
+    git config --global user.email "you@example.com"
+    git config --global user.name "your name"
+    ```
+    Initialise git in the local repository by executing the following commands.
+    ```
+    cd ~/<catkin_workspace_name>/src/autonomous-delivery-robot
+    ```
+    ```
+    git init
+    ```
+    ```
+    git add .
+    ```
+    ```
+    git commit -m "Created ROS package" .
+    ```
+    Rename master branch to main
+    ```
+    git branch -m main
+    ```
+
+4.  Connect local repository to remote
+    ```
+    git remote add origin https://github.com/MIT-Mentors/autonomous-delivery-robot
+    ```
+    ```
+    git pull origin main --allow-unrelated-histories
 
 ### Setting up the camera
 Refer [this.](https://github.com/MIT-Mentors/Intel-RealSense-Camera-R200-setup)
@@ -99,7 +137,8 @@ pip install git+https://github.com/ozgur/python-firebase
 
 ### Setting up wiring pi
 Refer [this](http://wiringpi.com/download-and-install) for installation.
-After installation, we need to add a few lines to ~/.bashrc file
+After installation, we need to add a few lines to ~/.bashrc file.
+Open a terminal and execute
 ```
 echo "
 sudo usermod -a -G gpio user_name
@@ -109,7 +148,7 @@ sudo chmod g+rw /dev/gpiomem" >> ~/.bashrc
 ``` 
 Then execute
 ```
-source ~/. bashrc
+source ~/.bashrc
 ```
 
 ## Running the software
@@ -122,7 +161,7 @@ In another terminal run
 ```
 rosrun autonomous-delivery-robot obs_main
 ```
-#### For delivery from dummy location A to dummy location B
+### For delivery from dummy location A to dummy location B
 ```
 roslaunch autonomous-delivery-robot delivery.launch
 ```

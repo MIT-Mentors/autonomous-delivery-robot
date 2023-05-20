@@ -1,18 +1,18 @@
 <launch>
         <node
-                pkg="autonomous_delivery_bot_rpi"
+                pkg="autonomous_delivery_bot"
                 type="main"
                 name="main"
                 output="screen"
         />
        <node
-                pkg="autonomous_delivery_bot_rpi"
+                pkg="autonomous_delivery_bot"
                 type="delivery"
                 name="delivery"
                 output="screen"
         />
         <node
-                pkg="autonomous_delivery_bot_rpi"
+                pkg="autonomous_delivery_bot"
                 type="access_database.py"
                 name="access_database"
                 output="screen"

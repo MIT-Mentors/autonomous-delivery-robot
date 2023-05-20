@@ -1,19 +1,28 @@
+// ****************************************************************************************************************************************
+// Title            : main.cpp
+// Description      : The script is responsible for navigating the robot to the setpoint after subscribing to it. It configures the
+//                    raspberry pi and sends PWM signals to motor drivers to drive the motors.                
+// Author           : Sowbhagya Lakshmi H T
+// Last revised on  : 20/05/2023
+// ****************************************************************************************************************************************
+
 #include <cmath>
+#include <ctime>
+#include <csignal>
 #include <cstdlib>
 #include <iostream>
 #include <math.h>
 #include <string>
+
+#include "geometry_msgs/PointStamped.h"
+#include "geometry_msgs/Vector3.h"
 #include "ros/ros.h"
+#include "sensor_msgs/Imu.h"
+#include "softPwm.h"
 #include "std_msgs/Bool.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Int8.h"
-#include <geometry_msgs/PointStamped.h>
-#include <geometry_msgs/Vector3.h>
-#include <sensor_msgs/Imu.h>
-#include <wiringPi.h>
-#include <ctime>
-#include <csignal>
-#include <softPwm.h>
+#include "wiringPi.h"
 
 class motorControl
 {
@@ -32,7 +41,9 @@ public:
         pinMode(m_pwmPin, OUTPUT);
 
         // Create soft pwm
-        softPwmCreate(m_pwmPin, 0, 100);
+        int pwmInitialVal = 0;
+        int pwmRange = 100;
+        softPwmCreate(m_pwmPin, pwmInitialVal, pwmRange);
     }
 };
 
@@ -45,7 +56,7 @@ public:
     
     SetPoint(ros::NodeHandle* n)
     {
-        m_reachedSetpointPub = n->advertise<std_msgs::Bool>("isReachedSetPoint", 1000);
+        m_reachedSetpointPub = n->advertise<std_msgs::Bool>("isReachedSetPoint", int queue_size=1000);
         m_setpointSub = n->subscribe("setpoint", 1, &SetPoint::setpoint_callback, this);
     }
 

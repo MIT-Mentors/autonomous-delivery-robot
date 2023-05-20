@@ -1,3 +1,11 @@
+# ****************************************************************************************************************************************
+# Title            : access_database.py
+# Description      : The script accesses the database and perform read/write operations. Reads sender and receiver info adn publishes it.
+#					 Writes the availability and progress status in database.                
+# Author           : Sowbhagya Lakshmi H T
+# Last revised on  : 20/05/2023
+# ****************************************************************************************************************************************
+
 #!/usr/bin/env python3
 
 import rospy
@@ -10,7 +18,7 @@ with open(r"/home/pi/catkin_ws/src/delivery_robot_phase_1/src/database_url.txt",
 
 appHandle = firebase.FirebaseApplication(dsn=url, authentication=None)
 
-def publish_delivery_info(senderLocationPub, receiverLocationPub):
+def get_n_publish_delivery_info(senderLocationPub, receiverLocationPub):
 	'''
 	Gets the delivery location data from the database and publishes it.
 	'''
@@ -47,14 +55,14 @@ def main():
 	receiverLocationPub = rospy.Publisher('receiverLocation', String, queue_size=10)
 
 	# Subscribers
-	availabilityStatusSub = rospy.Subscriber("availability", String,set_availability_status)
+	availabilityStatusSub = rospy.Subscriber("availability", String, set_availability_status)
 	progressStatusSub = rospy.Subscriber("progress", String, set_progress_status)
 
 	rate = rospy.Rate(10) # 10Hz
 		
 	while not rospy.is_shutdown():
 
-		publish_delivery_info(senderLocationPub, receiverLocationPub)
+		get_n_publish_delivery_info(senderLocationPub, receiverLocationPub)
 		rate.sleep()
 
 if __name__ == '__main__':

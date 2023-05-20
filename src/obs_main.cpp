@@ -1,8 +1,16 @@
+// ****************************************************************************************************************************************
+// Title            : obs_main.cpp
+// Description      : The script is responsible for local obsatcle avoidance. It subscribes to the dept information in the form of laserscan
+//                    data and calculates the possibility and positioning of the obstacels and generates appropriate commands for the robot
+//                    to dodge the obstacle.            
+// Author           : Sowbhagya Lakshmi H T
+// Last revised on  : 20/05/2023
+// ****************************************************************************************************************************************
+
 #include <iostream>
 #include "ros/ros.h"
 #include <sensor_msgs/LaserScan.h>
 #include <vector>
-
 #include <cmath>
 #include <cstdlib>
 #include <math.h>
@@ -43,7 +51,9 @@ public:
         pinMode(m_pwmPin, OUTPUT);
 
         // Create soft pwm
-        softPwmCreate(m_pwmPin, 0, 100);
+        int pwmInitialVal = 0;
+        int pwmRange = 100;
+        softPwmCreate(m_pwmPin, pwmInitialVal, pwmRange);
     }
 };
 
@@ -99,42 +109,20 @@ public:
         {
             std::cout << "Unexpected\n";
         }
-
-        // m_rightVelocity = 5;
-        // m_leftVelocity = 30;
-
         set_velocity();
     }
 
     void set_velocity()
     {
-
-        // for(int index=0; index<4; index++)
-        // {   
-            // if (m_rightVelocity >=0)
-            // {
-            //     std::cout << "Hello\n";
-                 digitalWrite(m_fwRight->m_dirPin, HIGH);
-                 digitalWrite(m_fwLeft->m_dirPin, HIGH);
-                 digitalWrite(m_bwRight->m_dirPin, HIGH);
-                 digitalWrite(m_bwLeft->m_dirPin, HIGH);
-
-            // }
-            // else if (m_rightVelocity <0)
-            // {
-            //     digitalWrite(m_fwLeft->m_dirPin, LOW);
-            //     digitalWrite(m_fwRight->m_dirPin, LOW);
-            //     digitalWrite(m_bwRight->m_dirPin, LOW);
-            //     digitalWrite(m_bwLeft->m_dirPin, LOW);
-            // }
-            
-                // std::cout << "Hello\n";
+            digitalWrite(m_fwRight->m_dirPin, HIGH);
+            digitalWrite(m_fwLeft->m_dirPin, HIGH);
+            digitalWrite(m_bwRight->m_dirPin, HIGH);
+            digitalWrite(m_bwLeft->m_dirPin, HIGH);
 
             softPwmWrite(m_fwRight->m_pwmPin, abs(m_rightVelocity));
             softPwmWrite(m_fwLeft->m_pwmPin, abs(m_leftVelocity));
             softPwmWrite(m_bwRight->m_pwmPin, abs(m_rightVelocity));
             softPwmWrite(m_bwLeft->m_pwmPin, abs(m_leftVelocity));
-        // }
     }
 
     void stopMotors()
@@ -159,22 +147,12 @@ public:
 
         delay(3);
     }    
-
-    // double find_distance_between_points(double point1[3], double point2[3])
-    // {
-    //     // Finding the distance between 2 points on a 2D plane using 
-    //     // the formula d = √((x_2-x_1)² + (y_2-y_1)²). 
-    //     // Here since the robot's x and z axes are parallel to the
-    //     // ground we use those coordinates to calculate the distance.
-    //     return sqrt((pow((point1[0]-point2[0]), 2)+pow((point1[2]-point2[2]), 2)));
-    // }
 };
 
 std::vector<float> laserScanData;
 
 std::vector<float> slicing(std::vector<float>& arr, int X, int Y)
 {
- 
     // Starting and Ending iterators
     auto start = arr.begin() + X;
     auto end = arr.begin() + Y + 1;
@@ -193,13 +171,6 @@ void laser_scan_callback(const sensor_msgs::LaserScan::ConstPtr &data)
 {
 
     laserScanData = data->ranges;
-
-    // ROS_INFO("Callback called\n");
-
-    // for (auto element : laserScanData)
-    // {
-    //     std::cout << element << ' ';    
-    // }
 
     std::vector<float> left;
     std::vector<float> right;
@@ -267,7 +238,7 @@ void laser_scan_callback(const sensor_msgs::LaserScan::ConstPtr &data)
     else
     {
         std::cout<<"Go Forward"<<std::endl;
-        flag = 0; //sow
+        flag = 0; 
     }
 }
 
@@ -276,12 +247,11 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "main");
     ros::NodeHandle n;
 
-    ros::Rate loop_rate(10000);
-
-    std::cout << "Entered script\n";
+    ros::Rate loop_rate(10000); Hz
 
     ros::Subscriber laserScanSub{};
-    laserScanSub = n.subscribe("scan", 10000, laser_scan_callback);
+    
+    laserScanSub = n.subscribe("scan", int queue_size=10000, laser_scan_callback);
 
     delay(2000);
 
@@ -307,15 +277,10 @@ int main(int argc, char **argv)
 
     while(ros::ok() && count < 500000)
     {
-        // ROS_INFO("** ");
         navigation.navigate_to_point();
-
-        count++;
 
         ros::spinOnce();
         loop_rate.sleep();
-
-        // std::cout << count << " ";
     }
 
     navigation.stopMotors();
