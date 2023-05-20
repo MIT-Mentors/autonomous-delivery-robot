@@ -155,8 +155,6 @@ Based on the current location of the bot, sender's location, and receiver's loca
 ## Future scope
 Simultaneous deliveries can be implemented. This helps in reducing the resources and waiting time in average. The deliveries can be done taking into consideration the locations and the time when the order was placed. Multiple charging stations can be installed to charge the batteries wirelessly thus, reducing the human interference. An algorithm can be built such that once the battery level goes below a particular value the bot autonomously navigates to the nearest charging station to charge itself. Optimization of local obstacle avoidance algorithm can be done with the help of the accuracy and precision measurements at various lighting conditions and the RGB data from the camera. 
 
-## Further study
-
 ## Project members
 [Aarthi Meena](https://github.com/Aarthi160802)
 
