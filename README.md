@@ -183,16 +183,19 @@ Firebase is used as a database where all the user data, availability of the robo
 
 The data in Firebase can be stored as either a Real-time database or a Firestore database. We want a real-time updation as time plays a critical role in determining the order when multiple orders are placed, therefore, we have our data stored in the Real-time database. The database and web application are connected after configuration is done in the application. The data in the database can be read and written through the application. If a new user registers with the application, their data gets added to the database. If an existing user tries to log in, their corresponding username and password are checked and after verification, they’ll be logged in. Once logged in, the user can place orders if the robot is available. 
 
+![Flowchart_delivery](https://github.com/MIT-Mentors/autonomous-delivery-robot/assets/81500653/c0e591a3-e56d-40a2-ae05-c0a6bd1c3ce3)
+
+
 The information regarding the availability of the robot is also stored in the database. As soon as the order is placed the availability field is changed from ‘Yes’ to ‘No’. So, placing the order when the availability is ‘No’ is not possible. The following information is given by the receiver when placing an order: Sender’s location, Receiver’s location, and Receiver’s name in the application. The receiver’s name must be one of the registered users. Once the order has been placed, all the data specific to the order will be updated in the database under the ‘Current delivery’ field. The data stored in the database is accessed by the ROS nodes running in the Raspberry Pi through Rest APIs provided by the Firebase to access the information.
 
-Based on the current location of the bot, sender's location, and receiver's location, an optimized path is found using the Mapbox API. The bot navigates with the help of the current location and the waypoints we get along the APPI. Once, the location is reached, the user can access the document holder through the app. Once the delivery is done, the availability is changed from ‘No’ to ‘Yes’, and the data under ‘Current delivery’ is copied to ‘Previous deliveries’ field and data is cleared from the former. So, the Raspberry Pi and application is integrated through the database.
+Based on the current location of the bot, sender's location, and receiver's location, an optimized path is found using the Mapbox API. The bot navigates with the help of the current location and the waypoints we get from the APPI. Once, the location is reached, the user can access the document holder through the app. Once the delivery is done, the availability is changed from ‘No’ to ‘Yes’, and the data under ‘Current delivery’ is copied to ‘Previous deliveries’ field and data is cleared from the former. So, the Raspberry Pi and application is integrated through the database.
 
 ## Known issues
-Markup : 1. Local obstacle avoidance algorithm: The accuracy of the  
+1. Local obstacle avoidance algorithm: The accuracy and precision of the camera data under various conditions plays a major role. Refer [this.](https://messy-scallop-252.notion.site/CAMERA-ACCURACY-AND-PRECISION-0b4867ea712e4581ab8c16f60915d73a) The range of the depth information from Inter Realsense R200 is 0.5 m to 6 m. This pose as a problem to the accuracy of the local obstacle avoidance algorithm.
+2. Authentication and deployment: The application has not used the in-built feature of Firebase of authentication. Hence, dynamic updation of the data for each user individually cannot be done. The application can then be hosted with Firebase itself. 
 
 ## Future scope
-
-## Further study
+Simultaneous deliveries can be implemented. This helps in reducing the resources and waiting time in average. The deliveries can be done taking into consideration the locations and the time when the order was placed. Multiple charging stations can be installed to charge the batteries wirelessly thus, reducing the human interference. An algorithm can be built such that once the battery level goes below a particular value the bot autonomously navigates to the nearest charging station to charge itself. Optimization of local obstacle avoidance algorithm can be done with the help of the accuracy and precision measurements at various lighting conditions and the RGB data from the camera. 
 
 ## Project members
 [Aarthi Meena](https://github.com/Aarthi160802)
