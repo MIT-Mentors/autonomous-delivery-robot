@@ -1,0 +1,20 @@
+<launch>
+        <node
+                pkg="autonomous_delivery_bot_rpi"
+                type="main"
+                name="main"
+                output="screen"
+        />
+       <node
+                pkg="autonomous_delivery_bot_rpi"
+                type="delivery"
+                name="delivery"
+                output="screen"
+        />
+        <node
+                pkg="autonomous_delivery_bot_rpi"
+                type="access_database.py"
+                name="access_database"
+                output="screen"
+        />
+</launch>

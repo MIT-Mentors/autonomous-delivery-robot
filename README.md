@@ -33,15 +33,13 @@ Tested on Ubuntu Server 20.04
 1. [Robot Operating System (ROS) - Noetic](http://wiki.ros.org/noetic/Installation)
 2. [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
 3. [Git](https://git-scm.com/downloads)
-4. 
+4. [Wiring Pi](http://wiringpi.com/download-and-install)
 
 
-## Setting up the computer
-
-### Setting up Raspberry pi
+## Setting up the Raspberry Pi
 The Raspberry Pi was setup and accessed in headless mode.
 
-#### Prepare SD card
+### Prepare SD card
 * This was done using in a Windows OS.
 * For SD cards with more than 32GB size, the file system is exFAT and not FAT32. But RPi does not recognize exFAT, hence change it to FAT32 to work. Used a [3rd party software](https://www.diskpart.com/download-home.html) to do this for our 64GB SD card.
 * Used [Raspberry Pi Imager](https://www.raspberrypi.com/software/) to flash Ubuntu Server 20.04 LTS to the SD card.
@@ -51,7 +49,7 @@ The Raspberry Pi was setup and accessed in headless mode.
     - Constant red LED - Indicates sufficient power.
     - Blinking green LED - Indicates that the SD card is being accessed.
 
-#### Access Raspberry Pi remotely
+### Access Raspberry Pi remotely
 Make sure the Raspberry Pi and the PC are connected to the same network.
 * Open the terminal
 * To install necessary tools for SSH
@@ -91,12 +89,55 @@ catkin_make
 ### Setting up the camera
 Refer [this.](https://github.com/MIT-Mentors/Intel-RealSense-Camera-R200-setup)
 
+### Setting up Firebase database
+Run the following commands
+```
+sudo apt install python3-pip
+sudo pip3 install requests
+pip install git+https://github.com/ozgur/python-firebase
+```
+
+### Setting up wiring pi
+Refer [this](http://wiringpi.com/download-and-install) for installation.
+After installation, we need to add a few lines to ~/.bashrc file
+```
+echo "
+sudo usermod -a -G gpio user_name
+% change the owner and group respectively
+sudo chown root.gpio /dev/gpiomem
+sudo chmod g+rw /dev/gpiomem" >> ~/.bashrc
+``` 
+Then execute
+```
+source ~/. bashrc
+```
 
 ## Running the software
+### For Obstacle avoidance
+In a terminal run
+```
+roscore
+```
+In another terminal run
+```
+rosrun autonomous-delivery-robot obs_main
+```
+#### For delivery from dummy location A to dummy location B
+```
+roslaunch autonomous-delivery-robot delivery.launch
+```
 
 ## Running the app
+Refer [this]()
 
 ## Software module overview
+| Module | Purpose |
+|--------|---------|
+| src/access_database.py |  To access the database to read/write data |
+| src/database_url.txt | Contains the url of the database |
+| src/delivery.cpp | Resolves the sender and receiver data and publishes the setpoint |
+| src/main.cpp | Navigates the robot to the setpoint |
+| src/obs_main.cpp | Does obstacle avoidance whilst basic locomotion |
 
 ## Software workflow
 Firebase is used as a database where all the user data, availability of the robot, and data pertaining to a specific order are stored. The users are the only ones who will be able to access the robot. All the users should be registered with the application and should belong to the closed community for safety purposes. For example, if the robot is trained for a college campus, then only the staff can access the robot. All these staffs should be registered with the application. The data used as the username can be an email id specific to the college alone. The data is stored as key-value pairs in a NoSQL format. 
