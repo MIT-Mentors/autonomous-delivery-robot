@@ -167,7 +167,7 @@ roslaunch autonomous-delivery-robot delivery.launch
 ```
 
 ## Running the app
-Refer [this]()
+Refer [this](https://github.com/MIT-Mentors/autonomous-delivery-robot-application)
 
 ## Software module overview
 | Module | Purpose |

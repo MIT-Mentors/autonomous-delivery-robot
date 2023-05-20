@@ -33,6 +33,10 @@ public:
 
     motorControl(int dirPin, int pwmPin)
     {
+        // To control each motor, 2 signals are required
+        // Dir signal = 0 or 1
+        // PWM signal = 0 to 100
+
         m_dirPin = dirPin;
         m_pwmPin = pwmPin;
 
@@ -143,6 +147,7 @@ public:
     {
         m_rightVelocity = abs(m_rightVelocity);
 
+        // Decreasing the motor velocity gradually
         while(m_rightVelocity >= 0)
         {
 
@@ -183,6 +188,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    // Defining the 4 motors using the pin numbers the respective
+    // dir and PWM pins are connected to
     motorControl fwRight{5, 4};
     motorControl fwLeft{3, 2};
     motorControl bwRight{29, 28};
