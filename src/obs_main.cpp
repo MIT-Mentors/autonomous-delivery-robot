@@ -247,11 +247,12 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "main");
     ros::NodeHandle n;
 
-    ros::Rate loop_rate(10000); Hz
+    ros::Rate loop_rate(10000); //Hz
 
     ros::Subscriber laserScanSub{};
     
-    laserScanSub = n.subscribe("scan", queue_size=10000, laser_scan_callback);
+    int queue_size=10000;
+    laserScanSub = n.subscribe("scan", queue_size, laser_scan_callback);
 
     delay(2000);
 
