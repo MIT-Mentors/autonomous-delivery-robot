@@ -48,7 +48,7 @@ public:
 
     Sender(ros::NodeHandle* n)
     {
-        m_locationSub = n->subscribe("senderLocation", int queue_size=1000, &Sender::location_callback, this);
+        m_locationSub = n->subscribe("senderLocation", queue_size=1000, &Sender::location_callback, this);
     }
 
     void location_callback(const std_msgs::String::ConstPtr &name)
@@ -65,7 +65,7 @@ public:
 
     Receiver(ros::NodeHandle* n)
     {
-        m_locationSub = n->subscribe("receiverLocation", int queue_size=1000, &Receiver::location_callback, this);
+        m_locationSub = n->subscribe("receiverLocation", queue_size=1000, &Receiver::location_callback, this);
     }
 
     void location_callback(const std_msgs::String::ConstPtr &name)
@@ -84,8 +84,8 @@ public:
 
     SetPoint(ros::NodeHandle* n)
     {
-        m_setpointPub = n->advertise<std_msgs::Int8>("setpoint", int queue_size=1000);
-        m_reachedSetpointSub = n->subscribe("isReachedSetPoint", int queue_size=10000, &SetPoint::reached_setpoint_callback, this);
+        m_setpointPub = n->advertise<std_msgs::Int8>("setpoint", queue_size=1000);
+        m_reachedSetpointSub = n->subscribe("isReachedSetPoint", queue_size=10000, &SetPoint::reached_setpoint_callback, this);
     }
 
     void publish_setpoint(int sp)
@@ -128,7 +128,7 @@ public:
 
     BotAvailability(ros::NodeHandle* n)
     {
-        m_availabilityPub = n->advertise<std_msgs::String>("availability", int queue_size=1000);
+        m_availabilityPub = n->advertise<std_msgs::String>("availability", queue_size=1000);
     }
 
     void set_availability_status(AvailabilityStatusOptions status)
@@ -151,7 +151,7 @@ public:
 
     ProgressStatus(ros::NodeHandle* n)
     {
-        m_progressStatusPub = n->advertise<std_msgs::String>("progress", int queue_size=1000);
+        m_progressStatusPub = n->advertise<std_msgs::String>("progress", queue_size=1000);
     }
 
     void set_progress_status(ProgressStatusOptions status)

@@ -251,7 +251,7 @@ int main(int argc, char **argv)
 
     ros::Subscriber laserScanSub{};
     
-    laserScanSub = n.subscribe("scan", int queue_size=10000, laser_scan_callback);
+    laserScanSub = n.subscribe("scan", queue_size=10000, laser_scan_callback);
 
     delay(2000);
 
