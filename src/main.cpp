@@ -60,7 +60,8 @@ public:
     
     SetPoint(ros::NodeHandle* n)
     {
-        m_reachedSetpointPub = n->advertise<std_msgs::Bool>("isReachedSetPoint", int queue_size=1000);
+        int queue_size = 1000;
+        m_reachedSetpointPub = n->advertise<std_msgs::Bool>("isReachedSetPoint",queue_size);
         m_setpointSub = n->subscribe("setpoint", 1, &SetPoint::setpoint_callback, this);
     }
 
