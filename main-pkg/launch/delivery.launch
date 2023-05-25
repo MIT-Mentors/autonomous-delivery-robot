@@ -1,18 +1,18 @@
 <launch>
         <node
-                pkg="autonomous_delivery_robot"
+                pkg="main-pkg"
                 type="main"
                 name="main"
                 output="screen"
         />
        <node
-                pkg="autonomous_delivery_robot"
+                pkg="main-pkg"
                 type="delivery"
                 name="delivery"
                 output="screen"
         />
         <node
-                pkg="autonomous_delivery_robot"
+                pkg="main-pkg"
                 type="access_database.py"
                 name="access_database"
                 output="screen"
