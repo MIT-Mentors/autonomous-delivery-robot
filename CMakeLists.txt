@@ -219,8 +219,5 @@ add_executable(obs_adr src/obs_main.cpp)
 target_link_libraries(obs_adr ${catkin_LIBRARIES})
 target_link_libraries(obs_adr ${WIRINGPI_LIBRARIES})
 
-add_executable(imu_adr src/imu_node.cpp)
-target_link_libraries(imu_adr ${catkin_LIBRARIES})
-target_link_libraries(imu_adr ${WIRINGPI_LIBRARIES})
 
 

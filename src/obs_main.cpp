@@ -86,8 +86,8 @@ public:
     {
         if (flag == 0)
         {
-            m_rightVelocity = 15;
-            m_leftVelocity = 15;
+            m_rightVelocity = 30;
+            m_leftVelocity = 30;
         }
         else if (flag == 1)     //right
         {
